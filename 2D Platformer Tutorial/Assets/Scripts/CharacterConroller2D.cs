@@ -16,6 +16,9 @@ public class CharacterConroller2D : MonoBehaviour
 
     Animator animator;
     Rigidbody2D rb2d;
+
+    int numberOfJumps=1;
+    int maxJumps = 2;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,8 +33,13 @@ public class CharacterConroller2D : MonoBehaviour
         //Use a grounded variable
         grounded = groundCheck.IsTouchingLayers(groundLayer);
 
-        if (Input.GetKeyDown(KeyCode.Space) && grounded)
+        if (Input.GetKeyDown(KeyCode.Space) && (grounded || numberOfJumps < maxJumps))
+        {
             rb2d.AddForce(new Vector2(0f, jumpForce));
+            numberOfJumps++;
+        }
+        if (grounded)
+            numberOfJumps = 1;
     }
     // Update is called once per frame
     void FixedUpdate()
